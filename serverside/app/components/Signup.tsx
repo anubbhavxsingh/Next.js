@@ -1,11 +1,15 @@
 "use client"
+import axios from "axios";
 import { ChangeEventHandler, useState } from "react";
+import { useRouter } from "next/navigation";
+
+
 
 export function Signup() {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [username, setUsername] = useState("");
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [password, setPassword] = useState("");
+    const router = useRouter()
+    
 
     return <div className="h-screen flex justify-center flex-col">
         <div className="flex justify-center">
@@ -19,11 +23,18 @@ export function Signup() {
                     <div className="pt-2">
                         <LabelledInput onChange={(e) => {
                             setUsername(e.target.value);
-                        }} label="Username" placeholder="anubhav@gmail.com" />
+                        }} label="Username" placeholder="harkirat@gmail.com" />
                         <LabelledInput onChange={(e) => {
                             setPassword(e.target.value)
                         }} label="Password" type={"password"} placeholder="123456" />
-                        <button type="button" className="mt-8 w-full text-white bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Sign in</button>
+                        <button onClick={async () => {
+                            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                            const response = await axios.post("http://localhost:3001/api/user", {
+                                username,
+                                password
+                            });
+                            router.push("/")
+                        }} type="button" className="mt-8 w-full text-white bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Sign in</button>
                     </div>
                 </div>
             </a>

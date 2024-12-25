@@ -1,16 +1,19 @@
-export function GET(){
-    // db logic
-    return Response.json({
-        email: "anubhavsinghbkj@gmail.com",
-        name: "Anubhav"
-    })
-}
-export function POST(){
-    // db logic
-    return Response.json({
-        email: "anubhavsinghbkj@gmail.com",
-        name: "Anubhav"
-    })
-}
+import { NextRequest, NextResponse } from "next/server"
+import { PrismaClient } from "@prisma/client"
 
-// check in postman
+const client = new PrismaClient();
+
+export async function POST(req: NextRequest) {
+    const body = await req.json();
+    // should add zod validation here
+    const user = await client.user.create({
+        data: {
+            username: body.username,
+            password: body.password
+        }
+    });
+
+    console.log(user.id);
+
+    return NextResponse.json({ message: "Signed up" });
+}
